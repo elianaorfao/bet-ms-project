@@ -42,7 +42,6 @@ public class BaseExceptionHandler {
         ex.getName(),
         ex.getRequiredType().getSimpleName()
     );
-
     return ResponseEntity
         .status(HttpStatus.BAD_REQUEST)
         .body(error);
@@ -70,6 +69,13 @@ public class BaseExceptionHandler {
     return ResponseEntity
         .status(HttpStatus.BAD_REQUEST)
         .body("Invalid request payload. Please verify your input.");
+  }
+
+  @ExceptionHandler(Exception.class)
+  public ResponseEntity<String> handleGenericException(Exception ex) {
+    return ResponseEntity
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .body("An unexpected error occurred: " + ex.getMessage());
   }
 
 }

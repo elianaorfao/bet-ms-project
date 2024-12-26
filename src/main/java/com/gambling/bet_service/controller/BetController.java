@@ -32,17 +32,16 @@ public class BetController {
   }
 
   @GetMapping("/{id}")
-  public BetDTO getBet(@PathVariable("id") String betId) {
+  public BetDTO getBet(@PathVariable("id") Long betId) {
     return
         Optional.ofNullable(betId)
-            .map(Long::valueOf)
             .map(service::getBet)
             .orElseThrow();
   }
 
   @PatchMapping("/{id}/status")
-  public void updateStatus(@PathVariable("id") String betId,@Valid @RequestBody BetStatus newStatus) {
-    service.updateStatus(Long.valueOf(betId), newStatus);
+  public void updateStatus(@PathVariable("id") Long betId,@Valid @RequestBody BetStatus newStatus) {
+    service.updateStatus(betId, newStatus);
   }
 
   @PostMapping
@@ -52,8 +51,8 @@ public class BetController {
   }
 
   @GetMapping("/{userId}/bets")
-  public List<BetDTO> listBetsByUserId(@PathVariable("userId") String userId){
-    return service.getAllBetsByUserId(Long.valueOf(userId));
+  public List<BetDTO> listBetsByUserId(@PathVariable("userId") Long userId){
+    return service.getAllBetsByUserId(userId);
   }
 
 }
