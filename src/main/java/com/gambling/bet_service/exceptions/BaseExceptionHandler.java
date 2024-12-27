@@ -10,14 +10,12 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 @ControllerAdvice
 public class BaseExceptionHandler {
 
   @ExceptionHandler(BetNotFoundException.class)
-  @ResponseStatus(HttpStatus.NOT_FOUND)
   public ResponseEntity<String> handleBetNotFoundException(BetNotFoundException ex) {
     return ResponseEntity
         .status(HttpStatus.NOT_FOUND)
@@ -25,7 +23,6 @@ public class BaseExceptionHandler {
   }
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
-  @ResponseStatus(HttpStatus.BAD_REQUEST)
   public ResponseEntity<String> handleValidationExceptions(MethodArgumentNotValidException e){
     String errors = e.getBindingResult().getFieldErrors().stream()
         .map(error -> error.getField() + ": " + error.getDefaultMessage())
@@ -34,7 +31,6 @@ public class BaseExceptionHandler {
         .status(HttpStatus.BAD_REQUEST)
         .body("Validation errors: " + errors);
   }
-
   @ExceptionHandler(MethodArgumentTypeMismatchException.class)
   public ResponseEntity<String> handleTypeMismatch(MethodArgumentTypeMismatchException ex) {
     String error = String.format(

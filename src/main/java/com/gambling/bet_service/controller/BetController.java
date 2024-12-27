@@ -54,6 +54,5 @@ public class BetController {
   public List<BetDTO> listBetsByUserId(@PathVariable("userId") Long userId){
     return service.getAllBetsByUserId(userId);
   }
-
 }
 
